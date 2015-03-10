@@ -35,7 +35,13 @@
 	<link href="/modules/core/img/brand/favicon.ico" rel="shortcut icon" type="image/x-icon">
 
 	<!--Application CSS Files-->
-	{% for cssFile in cssFiles %}<link rel="stylesheet" href="{{cssFile}}">{% endfor %}
+	<link rel="stylesheet" href="lib/mobile-angular-ui/dist/css/mobile-angular-ui-hover.min.css">
+	<link rel="stylesheet" href="lib/mobile-angular-ui/dist/css/mobile-angular-ui-base.min.css">
+	<link rel="stylesheet" href="lib/mobile-angular-ui/dist/css/mobile-angular-ui-desktop.min.css">
+	
+
+
+
 
 	<!-- HTML5 Shim -->
 	<!--[if lt IE 9]>
@@ -43,13 +49,39 @@
 	<![endif]-->
 </head>
 
-<body class="ng-cloak">
-	<header data-ng-include="'/modules/core/views/header.client.view.html'" class="navbar navbar-fixed-top navbar-inverse"></header>
-	<section class="content">
-		<section class="container">
-			{% block content %}{% endblock %}
-		</section>
-	</section>
+<body class="ng-scope has-navbar-top has-sidebar-left">
+
+  <!-- Sidebars -->
+
+	<div data-ng-include="'/modules/core/views/sidebar-left.html'" class="sidebar sidebar-left"></div>
+
+  <div class="app" ng-swipe-right="Ui.turnOn('uiSidebarLeft')" ng-swipe-left="Ui.turnOff('uiSidebarLeft')">
+    <div class="navbar navbar-app navbar-absolute-top">
+	    <div class="navbar-brand navbar-brand-center" ui-yield-to="title"><span class="ng-scope">
+	      Lodgefy
+	    </span></div>
+	    <div class="btn-group pull-left">
+	      <div ui-toggle="uiSidebarLeft" class="btn sidebar-toggle">
+	        <i class="fa fa-bars"></i> Menu
+	      </div>
+	    </div>
+	  </div>
+
+    <!-- App body -->
+
+    <div class="app-body">
+      <div class="app-content">
+      	
+        <ng-view class="ng-scope">
+        	{% block content %}{% endblock %}
+        </ng-view>
+      </div>
+    </div>
+  </div><!-- ~ .app -->
+
+  <!-- Modals and Overlays -->
+  <div ui-yield-to="modals"></div>
+
 
 	<!--Embedding The User Object-->
 	<script type="text/javascript">
@@ -57,12 +89,49 @@
 	</script>
 
 	<!--Application JavaScript Files-->
-	{% for jsFile in jsFiles %}<script type="text/javascript" src="{{jsFile}}"></script>{% endfor %} 
+	
+	<script type="text/javascript" src="lib/angular/angular.js"></script>
+	<script type="text/javascript" src="lib/angular-resource/angular-resource.min.js"></script>
+	<script type="text/javascript" src="lib/angular-cookies/angular-cookies.min.js"></script>
+	<script type="text/javascript" src="lib/angular-sanitize/angular-sanitize.min.js"></script>
+	<script type="text/javascript" src="lib/angular-ui-router/release/angular-ui-router.js"></script>
+	<script type="text/javascript" src="lib/angular-ui-utils/ui-utils.js"></script>
+	<script type="text/javascript" src="lib/mobile-angular-ui/dist/js/mobile-angular-ui.min.js"></script>
+	<script type="text/javascript" src="lib/mobile-angular-ui/dist/js/mobile-angular-ui.gestures.min.js"></script>
+	<script type="text/javascript" src="lib/jquery/dist/jquery.min.js"></script>
+	<script type="text/javascript" src="config.js"></script>
+	<script type="text/javascript" src="application.js"></script>
+	<script type="text/javascript" src="modules/core/core.client.module.js"></script>
+	<script type="text/javascript" src="modules/houses/houses.client.module.js"></script>
+	<script type="text/javascript" src="modules/occurrences/occurrences.client.module.js"></script>
+	<script type="text/javascript" src="modules/users/users.client.module.js"></script>
+	<script type="text/javascript" src="modules/core/config/core.client.routes.js"></script>
+	<script type="text/javascript" src="modules/core/controllers/header.client.controller.js"></script>
+	<script type="text/javascript" src="modules/core/controllers/home.client.controller.js"></script>
+	<script type="text/javascript" src="modules/core/services/menus.client.service.js"></script>
+	<script type="text/javascript" src="modules/houses/config/houses.client.config.js"></script>
+	<script type="text/javascript" src="modules/houses/config/houses.client.routes.js"></script>
+	<script type="text/javascript" src="modules/houses/controllers/houses.client.controller.js"></script>
+	<script type="text/javascript" src="modules/houses/services/houses.client.service.js"></script>
+	<script type="text/javascript" src="modules/occurrences/config/occurrences.client.config.js"></script>
+	<script type="text/javascript" src="modules/occurrences/config/occurrences.client.routes.js"></script>
+	<script type="text/javascript" src="modules/occurrences/controllers/occurrences.client.controller.js"></script>
+	<script type="text/javascript" src="modules/occurrences/services/occurrences.client.service.js"></script>
+	<script type="text/javascript" src="modules/users/config/users.client.config.js"></script>
+	<script type="text/javascript" src="modules/users/config/users.client.routes.js"></script>
+	<script type="text/javascript" src="modules/users/controllers/authentication.client.controller.js"></script>
+	<script type="text/javascript" src="modules/users/controllers/password.client.controller.js"></script>
+	<script type="text/javascript" src="modules/users/controllers/settings.client.controller.js"></script>
+	<script type="text/javascript" src="modules/users/services/authentication.client.service.js"></script>
+	<script type="text/javascript" src="modules/users/services/users.client.service.js"></script>
 
-	{% if process.env.NODE_ENV === 'development' %}
+
+	{% if process.env.NODE_ENV === 'development' && false %}
 	<!--Livereload script rendered -->
 	<script type="text/javascript" src="http://{{request.hostname}}:35729/livereload.js"></script>
 	{% endif %}
+
 </body>
+
 
 </html>

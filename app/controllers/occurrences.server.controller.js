@@ -91,14 +91,13 @@ exports.list = function(req, res) {
 exports.execute = function(req, res) { 
 	var occurrence = req.occurrence;
 	occurrence.actions.forEach(function (action) {
-		if (action.type == 'url') {
-
+		if (action.type === 'url') {
 			http.get(action.data, function(resp){
 			  resp.on('data', function(chunk){
-			    console.log("Got success: " + chunk);
+			    console.log('Got success: ' + chunk);
 			  });
-			}).on("error", function(e){
-			  console.log("Got error: " + e.message);
+			}).on('error', function(e){
+			  console.log('Got error: ' + e.message);
 			});
 		}
 	});
